@@ -20,9 +20,9 @@ namespace NameSiloDnsUpdateService.NameSilo
         private readonly ApiConfiguration configuration;
         private readonly ILogger logger;
 
-        public NameSiloRepository(IHttpClientFactory httpClientFactory, ApiConfiguration configuration, ILogger logger)
+        public NameSiloRepository(NameSiloHttpClient nameSiloHttpClient, ApiConfiguration configuration, ILogger logger)
         {
-            this.httpClient = httpClientFactory.CreateClient();
+            this.httpClient = nameSiloHttpClient.HttpClient;
             this.configuration = configuration;
             this.logger = logger.ForContext<NameSiloRepository>();
         }

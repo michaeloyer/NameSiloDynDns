@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NameSiloDnsUpdateService.HttpClientSetup;
 using NameSiloDnsUpdateService.NameSilo;
 using NameSiloDnsUpdateService.Services;
 using Serilog;
@@ -25,12 +26,16 @@ namespace NameSiloDnsUpdateService
                 )
                 .UseSerilog((host, config) => config.ReadFrom.Configuration(host.Configuration))
                 .ConfigureServices((host, services) =>
-                    services.AddHostedService<UpdateService>()
-                        .AddHttpClient()
+                {
+                    services.AddHttpClient<NameSiloHttpClient>()
+                        .ConfigureNameSiloHttpLogging();
+
+                    services
+                        .AddHostedService<UpdateService>()
                         .AddSingleton(host.Configuration.GetSection("NameSiloApi").Get<ApiConfiguration>(IncludePrivateProperties))
                         .AddSingleton(host.Configuration.GetSection("HostToUpdate").Get<HostToUpdate>(IncludePrivateProperties))
-                        .AddScoped<NameSiloRepository>()
-                )
+                        .AddScoped<NameSiloRepository>();
+                })
                 .RunConsoleAsync();
         }
 
