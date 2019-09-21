@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace NameSiloDnsUpdateService.HttpClientSetup
+namespace NameSiloDynDns.HttpClientSetup
 {
     public class NameSiloHttpClientFilter : IHttpMessageHandlerBuilderFilter
     {

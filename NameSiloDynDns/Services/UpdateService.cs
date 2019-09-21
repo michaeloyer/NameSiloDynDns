@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
-using NameSiloDnsUpdateService.NameSilo;
+using NameSiloDynDns.NameSilo;
 using Serilog;
 using System;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NameSiloDnsUpdateService.Services
+namespace NameSiloDynDns.Services
 {
     public class UpdateService : BackgroundService
     {

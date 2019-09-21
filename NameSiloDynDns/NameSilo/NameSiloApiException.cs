@@ -1,8 +1,8 @@
-﻿using NameSiloDnsUpdateService.NameSilo.ApiModels;
+﻿using NameSiloDynDns.NameSilo.ApiModels;
 using System;
 using System.Runtime.Serialization;
 
-namespace NameSiloDnsUpdateService.NameSilo
+namespace NameSiloDynDns.NameSilo
 {
     public class NameSiloApiException : Exception
     {

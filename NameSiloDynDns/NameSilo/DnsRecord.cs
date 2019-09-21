@@ -1,4 +1,4 @@
-﻿namespace NameSiloDnsUpdateService.NameSilo
+﻿namespace NameSiloDynDns.NameSilo
 {
     public class DnsRecord
     {

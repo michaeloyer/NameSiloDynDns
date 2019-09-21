@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NameSiloDnsUpdateService.HttpClientSetup;
-using NameSiloDnsUpdateService.NameSilo;
-using NameSiloDnsUpdateService.Services;
+using NameSiloDynDns.HttpClientSetup;
+using NameSiloDynDns.NameSilo;
+using NameSiloDynDns.Services;
 using Serilog;
 using System.Threading.Tasks;
 
-namespace NameSiloDnsUpdateService
+namespace NameSiloDynDns
 {
     class Program
     {

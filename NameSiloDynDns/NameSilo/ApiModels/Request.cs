@@ -2,7 +2,7 @@
 using System.Net;
 using System.Xml.Serialization;
 
-namespace NameSiloDnsUpdateService.NameSilo.ApiModels
+namespace NameSiloDynDns.NameSilo.ApiModels
 {
     public class Request
     {

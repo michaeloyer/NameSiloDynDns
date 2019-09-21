@@ -6,7 +6,7 @@ using Serilog.Sinks.Email;
 using System;
 using System.Net;
 
-namespace NameSiloDnsUpdateService
+namespace NameSiloDynDns
 {
     public static class EmailLoggingExtensions
     {

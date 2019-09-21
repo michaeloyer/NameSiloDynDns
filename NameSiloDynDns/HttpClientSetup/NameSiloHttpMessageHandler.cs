@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NameSiloDnsUpdateService.HttpClientSetup
+namespace NameSiloDynDns.HttpClientSetup
 {
     public class NameSiloHttpMessageHandler : DelegatingHandler
     {

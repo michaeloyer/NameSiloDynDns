@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace NameSiloDnsUpdateService
+namespace NameSiloDynDns
 {
     public class NameSiloHttpClient
     {

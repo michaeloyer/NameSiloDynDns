@@ -1,4 +1,4 @@
-﻿namespace NameSiloDnsUpdateService
+﻿namespace NameSiloDynDns
 {
     public class HostToUpdate
     {

@@ -1,11 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Http;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace NameSiloDnsUpdateService.HttpClientSetup
+namespace NameSiloDynDns.HttpClientSetup
 {
     public static class HttpClientExtensions
     {
@@ -15,6 +12,6 @@ namespace NameSiloDnsUpdateService.HttpClientSetup
 
             return builder;
         }
-        
+
     }
 }

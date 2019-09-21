@@ -1,5 +1,5 @@
 ﻿using MoreLinq;
-using NameSiloDnsUpdateService.NameSilo.ApiModels;
+using NameSiloDynDns.NameSilo.ApiModels;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NameSiloDnsUpdateService.NameSilo
+namespace NameSiloDynDns.NameSilo
 {
     public class NameSiloRepository
     {
