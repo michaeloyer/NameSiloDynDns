@@ -74,12 +74,14 @@ namespace NameSiloDnsUpdateService.Services
                         IPAddress = publicIP
                     }).GetAwaiter().GetResult();
 
-                    logger.Warning("New Public IP Address {PublicIP}. Successfully Updated the host {Host} from {HostIP}",
+                    logger.ForContext(propertyName: "UpdatedIP", true)
+                        .Warning("New Public IP Address {PublicIP}. Successfully Updated the host {Host} from {HostIP}",
                         publicIP, host, hostIP);
                 }
                 else
                 {
-                    logger.Information("Public IP {PublicIP} and Host IP {HostIP} are the same on the host {Host}",
+                    logger.ForContext(propertyName: "UpdatedIP", true)
+                        .Information("Public IP {PublicIP} and Host IP {HostIP} are the same on the host {Host}",
                         publicIP, hostIP, host);
                 }
             }
