@@ -47,7 +47,7 @@ namespace NameSiloDnsUpdateService.Services
             {
                 var stoppingToken = (CancellationToken)state;
                 stoppingToken.ThrowIfCancellationRequested();
-                logger.Information("Update Service Working");
+                logger.Debug("Update Service Checking for Change Public IP Address");
 
                 var dnsRecordList = repository.GetDnsRecordList().GetAwaiter().GetResult();
 
@@ -57,21 +57,30 @@ namespace NameSiloDnsUpdateService.Services
 
                 if (hostDnsRecord == null)
                 {
-                    logger.Error($"The host {hostToUpdate.Host} does not exist as an 'A' record");
+                    logger.Error("The host {Host} does not exist as an 'A' record", hostToUpdate.Host);
                     return;
                 }
 
-                if (!dnsRecordList.CallingIpAddress.Equals(IPAddress.Parse(hostDnsRecord.Value)))
+                var host = hostDnsRecord.Host;
+                var hostIP = hostDnsRecord.Value;
+                var publicIP = dnsRecordList.CallingIpAddress;
+
+                if (!dnsRecordList.CallingIpAddress.Equals(IPAddress.Parse(hostIP)))
                 {
                     var response = repository.UpdateHostIpAddress(new UpdateHostMessage
                     {
                         RecordID = hostDnsRecord.RecordID,
-                        Host = hostDnsRecord.Host,
-                        IPAddress = dnsRecordList.CallingIpAddress
+                        Host = host,
+                        IPAddress = publicIP
                     }).GetAwaiter().GetResult();
 
-                    logger.Warning($"New Public IP Address. Successfully Updated the host '{hostDnsRecord.Host}' " +
-                        $"to IP Address {dnsRecordList.CallingIpAddress}");
+                    logger.Warning("New Public IP Address {PublicIP}. Successfully Updated the host {Host} from {HostIP}",
+                        publicIP, host, hostIP);
+                }
+                else
+                {
+                    logger.Information("Public IP {PublicIP} and Host IP {HostIP} are the same on the host {Host}",
+                        publicIP, hostIP, host);
                 }
             }
             catch (HttpRequestException ex)
@@ -85,9 +94,6 @@ namespace NameSiloDnsUpdateService.Services
             catch (Exception ex)
             {
                 logger.Error(ex, "Generic Error Checking for Update");
-            }
-            finally
-            {
             }
         }
 
