@@ -11,7 +11,7 @@ The [config file](NameSiloDynDns/appsettings.json) controls how this program wil
 * APIKey: [Generate here](https://www.namesilo.com/account/api-manager)
 
 ## Install
-This is a DotNet Core app that can be run anywhere. See your OS guides for setting up as service. You can build and publish this by using `dotnet publish --runtime win-x64 /p:PublishSingleFile=true /p:DebugType=None` to create an executable in Windows. To run the Executable in Windows you can use something like [NSSM](https://nssm.cc/) or use the Windows Task Scheduler
+This is a DotNet Core app that can be run anywhere. See your OS guides for setting up as service. You can build and publish this by using `dotnet publish --self-contained --runtime win-x64` to create an executable in Windows. To run the Executable in Windows you can use something like [NSSM](https://nssm.cc/) or use the Windows Task Scheduler
 
 ## Logging
 This app uses [Serilog](https://serilog.net/) for logging. Logging is setup in the [appsettings.json](NameSiloDynDns/appsettings.json) file in the *Serilog* section. The following sinks are currently supported:
