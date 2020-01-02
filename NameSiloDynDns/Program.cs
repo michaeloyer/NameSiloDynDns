@@ -5,6 +5,7 @@ using NameSiloDynDns.HttpClientSetup;
 using NameSiloDynDns.NameSilo;
 using NameSiloDynDns.Services;
 using Serilog;
+using System;
 using System.Threading.Tasks;
 
 namespace NameSiloDynDns
@@ -16,13 +17,16 @@ namespace NameSiloDynDns
             await new HostBuilder()
                 .ConfigureHostConfiguration(config =>
                     config
-                        .AddJsonFile("hostsettings.json", optional: true)
-                        .AddEnvironmentVariables("ASPNETCORE_")
+                        .SetBasePath(Environment.CurrentDirectory)
+                        .AddJsonFile("hostsettings.json", optional: true, reloadOnChange: true)
+                        .AddEnvironmentVariables("DOTNET_")
                         .AddCommandLine(args)
+
                 )
                 .ConfigureAppConfiguration((host, config) =>
-                    config.AddJsonFile("appsettings.json")
-                        .AddJsonFile($"appsettings.{host.HostingEnvironment.EnvironmentName}.json", optional: true)
+                    config
+                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                        .AddJsonFile($"appsettings.{host.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 )
                 .UseSerilog((host, config) => config.ReadFrom.Configuration(host.Configuration))
                 .ConfigureServices((host, services) =>
