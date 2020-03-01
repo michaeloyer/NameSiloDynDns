@@ -27,7 +27,7 @@ namespace NameSiloDynDns.Services
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             logger.Information("Update Service Starting");
-            var checkingPeriod = new TimeSpan(hours: hostToUpdate.Hours, minutes: hostToUpdate.Minutes, seconds: hostToUpdate.Seconds);
+            var checkingPeriod = hostToUpdate.UpdateTimeSpan;
             timer = new Timer(CheckForUpdate, stoppingToken, TimeSpan.Zero, checkingPeriod);
 
             return Task.CompletedTask;

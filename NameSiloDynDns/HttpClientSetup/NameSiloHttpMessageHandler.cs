@@ -14,11 +14,6 @@ namespace NameSiloDynDns.HttpClientSetup
 
         public NameSiloHttpMessageHandler(ILogger logger)
         {
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
             _logger = logger;
         }
 

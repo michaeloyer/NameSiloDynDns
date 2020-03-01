@@ -4,8 +4,9 @@ using Microsoft.Extensions.Hosting;
 using NameSiloDynDns.HttpClientSetup;
 using NameSiloDynDns.NameSilo;
 using NameSiloDynDns.Services;
+using Polly;
+using Polly.Extensions.Http;
 using Serilog;
-using System;
 using System.Threading.Tasks;
 
 namespace NameSiloDynDns
@@ -14,31 +15,25 @@ namespace NameSiloDynDns
     {
         static async Task Main(string[] args)
         {
-            await new HostBuilder()
-                .ConfigureHostConfiguration(config =>
-                    config
-                        .SetBasePath(Environment.CurrentDirectory)
-                        .AddJsonFile("hostsettings.json", optional: true, reloadOnChange: true)
-                        .AddEnvironmentVariables("DOTNET_")
-                        .AddCommandLine(args)
-
-                )
-                .ConfigureAppConfiguration((host, config) =>
-                    config
-                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                        .AddJsonFile($"appsettings.{host.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true)
-                )
+            await Host.CreateDefaultBuilder()
                 .UseSerilog((host, config) => config.ReadFrom.Configuration(host.Configuration))
                 .ConfigureServices((host, services) =>
                 {
+                    var hostToUpdateConfigruration = host.Configuration.GetSection("HostToUpdate").Get<HostToUpdate>(IncludePrivateProperties);
+
                     services.AddHttpClient<NameSiloHttpClient>()
-                        .ConfigureNameSiloHttpLogging();
+                        .ConfigureNameSiloHttpLogging()
+                        .AddPolicyHandler(HttpPolicyExtensions
+                            .HandleTransientHttpError()
+                            .WaitAndRetryAsync(retryCount: hostToUpdateConfigruration.RetryAttempts,
+                                retryAttempt => hostToUpdateConfigruration.RetryTimeSpan));
 
                     services
-                        .AddHostedService<UpdateService>()
                         .AddSingleton(host.Configuration.GetSection("NameSiloApi").Get<ApiConfiguration>(IncludePrivateProperties))
-                        .AddSingleton(host.Configuration.GetSection("HostToUpdate").Get<HostToUpdate>(IncludePrivateProperties))
-                        .AddScoped<NameSiloRepository>();
+                        .AddSingleton(hostToUpdateConfigruration)
+                        .AddTransient<NameSiloRepository>()
+                        .AddHostedService<UpdateService>()
+                        ;
                 })
                 .RunConsoleAsync();
         }
