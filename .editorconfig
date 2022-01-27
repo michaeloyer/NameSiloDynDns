@@ -1,0 +1,16 @@
+root = true
+
+[*]
+indent_style = space
+end_of_line = lf
+
+[*.fs]
+indent_size = 4
+insert_final_newline = true
+
+[*.fsproj]
+indent_size = 2
+end_of_line = crlf
+
+[*.sln]
+end_of_line = crlf
